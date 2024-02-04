@@ -1,30 +1,25 @@
 import './App.css'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import SliderBar from './components/sliderBar/SliderBar'
+import Home from './Home/Home'
+import ListCharacter from './ListCharacters/ListCharacter'
+import CreateCharacter from './createCharacter/CreateCharacter'
 
 function App() {
-  const[lists, setList] = useState([])
-
-  useEffect(()=> {
-    const getCharacter = async() => {
-      const response = await axios.get('https://rickandmortyapi.com/api/character')
-      setList(response.data.results)
-      console.log(response.data.results);
-    }
-    getCharacter()
-  },[])
   return (
-   <div>
+   <div className='app-container'>
+    <Router>
     <SliderBar />
-    {
-      lists.map((list) => (
-        <div key={list._id}>
-          <h1>name: {list.name}</h1>
-          <h2>status: {list.status}</h2>
-        </div>
-      ))
-    }
+    <div className='content'>
+    <Routes>
+      <Route path='/' element={<Home />} />
+      <Route path='/list' element={<ListCharacter />} />
+      <Route path='/create' element={<CreateCharacter />} />
+    </Routes>
+    </div>
+    </Router>
    </div>
   )
 }
